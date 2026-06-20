@@ -1,0 +1,4 @@
+name: cryosparc_toolspace_venv
+channels:
+  - conda-forge
+prefix: /Users/gabriele/usr/local/bin/miniforge3/envs/cryosparc_toolspace_venv
