@@ -10,29 +10,35 @@ A quick guide on how to move Cryosparc particles into RELION for continuation of
 - Once the job is finish, open it
 - Proceed to the 'Outputs' tab
 - Download the following outputs (circled in blue):
-    - particle.blob (cryosparc_Pn_restacked_particles.cs)
-    - particles.ctf (cryosparc_Pn_Jn_passthrough_particles (n))
-    - particles.pick_stats (cryosparc_Pn_Jn_passthrough_particles (n))
-    - particles.alignments2D (cryosparc_Pn_Jn_passthrough_particles (n))
-    - particles.filament (cryosparc_Pn_Jn_passthrough_particles (n))
-    - particles.location (cryosparc_Pn_Jn_passthrough_particles (n))
+    - particle.blob (cryosparc_project_restacked_particles.cs)
+    - particles.ctf (cryosparc_project_job_passthrough_particles (n))
+    - particles.pick_stats (cryosparc_project_job_passthrough_particles (n))
+    - particles.alignments2D (cryosparc_project_job_passthrough_particles (n))
+    - particles.filament (cryosparc_project_job_passthrough_particles (n))
+    - particles.location (cryosparc_project_job_passthrough_particles (n))
 - Copy the directory name of the innermost directory, found in the (directory is circled in orange, in this case the innermost directory is 'J521'). This will be referred to as the 'job'. If the word 'job' is used in any pathway directories, replace it with this directory name. 
 
 ![cryosparc_interface_should_be_here](https://github.com/Gabriel-EspinozaDiaz/cryosparc-to-RELION_pipeline/blob/main/cryosparc_interface_example.png)
 
 ## What to do in Terminal 
 
-- Organise the particle files into a directory
-- Navigate to the directory
+- Make a directory to store your particles
+
+```bash
+mkdir Cryosparc_to_RELION_Pipeline
+```
+
+- Move the particle files into a directory
+- Move to the directory
 - Activate a virtual environment (recommended)
 - Run the following command to download all dependencies
 
 ```bash
-curl -O https://raw.githubusercontent.com///main/requirements.txt
+curl -O https://github.com/Gabriel-EspinozaDiaz/cryosparc-to-RELION_pipeline/blob/main/requirements.txt
 pip install -r requirements.txt
 ```
 
-- Run this command to prepare the files from processing, and process them using csparc2star
+- Run this command to prepare the files from processing, and process them using csparc2star. This will output the file 'relion_compatible_particles.star'
 
 ```bash
 for f in *; do tmp="${f//[()]/}"; mv "$f" "${tmp// /_}"; done
@@ -55,11 +61,37 @@ relion
 - exit relion gui
 
 
-- Copy the restack directory directly to 
+- Copy the restack directory directly to the 'job' directory
 
 ```bash
 cp -r ./pathway/to/job/restack ./pathway/to/relion-project-directory/job/restack
 ```
+
+- move to the restack directory, and run the following command to reformat the filenames
+
+```bash
+cd ./pathway/to/relion-project-directory/job/restack
+for f in *restacked.mrc; do mv -- "$f" "${f}s"; done
+```
+
+- move the star file to the relion directory
+
+```bash 
+mv ./pathway/to/relion_compatible_particles.star ./pathway/to/relion_directory/relion_compatible_particles.star
+```
+
+- reopen the RELION gui
+
+```bash
+relion
+```
+
+- Select the 'Import' job
+- In the 'Movies/mics' tab, select 'No' for the 'Import raw micrographs/movies' field
+- In the 'Others' tab, select 'Yes' for the 'Import other node types' field
+- input the pathway to relion_compatible_particles.star in the 'Input File' field
+- Select 'Particle STAR file (.star)' in the 'Node type' field
+- Run the job
 
 ### SUBSECTION B: For users running RELION on a cluster
 
