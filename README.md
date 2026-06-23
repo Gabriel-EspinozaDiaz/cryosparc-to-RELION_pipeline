@@ -1,6 +1,6 @@
-# Cryosparc to RELION Pipeline
+# CryoSPARC to RELION Pipeline
 
-A quick guide on how to move Cryosparc particles into RELION for continuation of 
+A quick guide on how to move CryoSPARC particles into RELION for continuation of cryo-EM postprocessing, specifically with CryoSPARC-curated particles. 
 
 ## What to do in the Cryosparc web interface
 
