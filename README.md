@@ -35,14 +35,16 @@ mkdir Cryosparc_to_RELION_Pipeline
 
 ```bash
 curl -O https://github.com/Gabriel-EspinozaDiaz/cryosparc-to-RELION_pipeline/blob/main/requirements.txt
+curl -O https://github.com/Gabriel-EspinozaDiaz/cryosparc-to-RELION_pipeline/blob/main/mrc2mrcs.py
 pip install -r requirements.txt
 ```
 
-- Run this command to prepare the files from processing, and process them using csparc2star. This will output the file 'relion_compatible_particles.star'
+- Run this command to prepare the files from processing, and process them using csparc2star and mrc2mrcs. This will output the file 'relion_incompatible_particles.star'
 
 ```bash
 for f in *; do tmp="${f//[()]/}"; mv "$f" "${tmp// /_}"; done
-csparc2star.py --inverty cryosparc_P167_J539_passthrough_particles_1.cs cryosparc_P167_J539_passthrough_particles_2.cs cryosparc_P167_J539_passthrough_particles_3.cs cryosparc_P167_J539_passthrough_particles_4.cs cryosparc_P167_J539_passthrough_particles_5.cs cryosparc_P167_J539_passthrough_particles.cs cryosparc_P167_restacked_particles.cs relion_compatible_particles.star
+csparc2star.py --inverty cryosparc_project_job_passthrough_particles_1.cs cryosparc_project_job_passthrough_particles_2.cs cryosparc_project_job_passthrough_particles_3.cs cryosparc_project_job_passthrough_particles_4.cs cryosparc_project_job_passthrough_particles_5.cs cryosparc_project_job_passthrough_particles.cs cryosparc_project_restacked_particles.cs relion_incompatible_particles.star
+python mrc2mrcs.py relion_incompatible_particles.star relion_compatible_particles.star
 ```
 
 - If you are running RELION from your own computer, proceed to SUBSECTION A. If you are using RELION on a cluster through ssh, proceed to SUBSECTION B. 
