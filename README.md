@@ -39,7 +39,7 @@ curl -O https://github.com/Gabriel-EspinozaDiaz/cryosparc-to-RELION_pipeline/blo
 pip install -r requirements.txt
 ```
 
-- Run this command to prepare the files from processing, and process them using csparc2star and mrc2mrcs. This will output the file 'relion_incompatible_particles.star'
+- Run this command to prepare the files from processing, and process them using csparc2star and mrc2mrcs. In each instance where 'project' and 'job' appear, the terms must be replaced with the relevant job and project IDs. This will output the file 'relion_incompatible_particles.star'
 
 ```bash
 for f in *; do tmp="${f//[()]/}"; mv "$f" "${tmp// /_}"; done
